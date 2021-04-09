@@ -27,7 +27,10 @@ def defn(name):
         return render_template("wordnotfound.html"), 404
     # else, there must be valid letters inside
 
-    url = "https://api.dictionaryapi.dev/api/v2/entries/en_US/{}".format(name)
+    # Something is making the URL return an error when there is a space in the word
+    # Makes python replace the spaces with code %20 which represents a space in a URL. Works with the API.
+    name = name.replace(" ", "%20")
+    url = f"https://api.dictionaryapi.dev/api/v2/entries/en_US/{name}"
 
     response = requests.get(url)
 
